@@ -26,7 +26,8 @@ public class DFSSolver extends Solver {
 	 * @throws NoSolutionExistsException
 	 */
 	private void dsf_solve() throws NoSolutionExistsException {
-		// TODO: The meat.
+		// TODO: loop through unsolved list until solve, or until you can prove
+		// it's unsolvable.
 	}
 
 	/**
