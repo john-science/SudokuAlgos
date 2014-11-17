@@ -1,7 +1,7 @@
 SudokuAlgos
 ===========
 
- * A Java library to create Sudoku puzzles of a desired difficulty.
+> A Java library to create Sudoku puzzles of a desired difficulty.
 
 ## Abstract
 
