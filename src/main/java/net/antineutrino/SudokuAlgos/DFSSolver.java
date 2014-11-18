@@ -21,13 +21,18 @@ public class DFSSolver extends Solver {
 
 		return current;
 	}
-	
+
+	/**
+	 * 
+	 * @throws NoSolutionExistsException
+	 */
 	private void check_for_duplicates() throws NoSolutionExistsException {
 		for (int r = 0; r < 9; r++) {
 			for (int c = 0; c < 9; c++) {
 				if (current[r][c] != 0) {
-					if(!isPossible(r,c,current[r][c])){
-						throw new NoSolutionExistsException("The puzzle is not solvable.");
+					if (!isPossible(r, c, current[r][c])) {
+						throw new NoSolutionExistsException(
+								"The puzzle is not solvable.");
 					}
 				}
 			}
@@ -39,8 +44,24 @@ public class DFSSolver extends Solver {
 	 * @throws NoSolutionExistsException
 	 */
 	private void dsf_solve() throws NoSolutionExistsException {
-		// TODO: loop through unsolved list until solve, or until you can prove
-		// it's unsolvable.
+		int i = 0;
+		while (i > -1 && i < unsolved.size()) {
+			int[] ucell = unsolved.get(i);
+			if (current[ucell[0]][ucell[1]] == 0) {
+				current[ucell[0]][ucell[1]] = possibles[ucell[0]][ucell[1]][0];
+				i += 1;
+			} else {
+				int j = ArrayUtils.findIntIndex(possibles[ucell[0]][ucell[1]],
+						current[ucell[0]][ucell[1]]);
+				if (j == possibles[ucell[0]][ucell[1]].length - 1) {
+					current[ucell[0]][ucell[1]] = 0;
+					i -= 1;
+				} else {
+					current[ucell[0]][ucell[1]] = possibles[ucell[0]][ucell[1]][j + 1];
+					i += 1;
+				}
+			}
+		}
 	}
 
 	/**
@@ -63,7 +84,8 @@ public class DFSSolver extends Solver {
 
 					// if nothing is possible, the puzzle has no solution
 					if (temp.size() == 0) {
-						throw new NoSolutionExistsException("The puzzle is not solvable.");
+						throw new NoSolutionExistsException(
+								"The puzzle is not solvable.");
 					} else if (temp.size() == 1) {
 						// If there is only one possibility, just fix it now.
 						current[r][c] = temp.get(0);
