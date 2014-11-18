@@ -14,11 +14,24 @@ public class DFSSolver extends Solver {
 	public int[][] solve(int[][] start) throws NoSolutionExistsException {
 		current = start.clone();
 
+		check_for_duplicates();
 		build_possibles();
 		build_unsolved();
 		dsf_solve();
 
 		return current;
+	}
+	
+	private void check_for_duplicates() throws NoSolutionExistsException {
+		for (int r = 0; r < 9; r++) {
+			for (int c = 0; c < 9; c++) {
+				if (current[r][c] != 0) {
+					if(!isPossible(r,c,current[r][c])){
+						throw new NoSolutionExistsException("The puzzle is not solvable.");
+					}
+				}
+			}
+		}
 	}
 
 	/**
@@ -50,7 +63,7 @@ public class DFSSolver extends Solver {
 
 					// if nothing is possible, the puzzle has no solution
 					if (temp.size() == 0) {
-						throw new NoSolutionExistsException("hey");
+						throw new NoSolutionExistsException("The puzzle is not solvable.");
 					} else if (temp.size() == 1) {
 						// If there is only one possibility, just fix it now.
 						current[r][c] = temp.get(0);
