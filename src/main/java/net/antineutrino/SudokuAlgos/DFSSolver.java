@@ -51,7 +51,7 @@ public class DFSSolver extends Solver {
 				current[ucell[0]][ucell[1]] = possibles[ucell[0]][ucell[1]][0];
 				i += 1;
 			} else {
-				int j = ArrayUtils.findIntIndex(possibles[ucell[0]][ucell[1]],
+				int j = ArrayUtils.findIndex(possibles[ucell[0]][ucell[1]],
 						current[ucell[0]][ucell[1]]);
 				if (j == possibles[ucell[0]][ucell[1]].length - 1) {
 					current[ucell[0]][ucell[1]] = 0;
