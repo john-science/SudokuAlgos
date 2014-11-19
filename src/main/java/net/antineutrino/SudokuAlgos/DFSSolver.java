@@ -8,8 +8,7 @@ public class DFSSolver extends Solver {
 	private List<int[]> unsolved = new ArrayList<int[]>();
 
 	/**
-	 * This abstract method solves a Sudoku puzzle using a simple Depth-First
-	 * Search approach.
+	 * Solve a Sudoku puzzle using a simple Depth-First Search approach.
 	 */
 	public byte[][] solve(byte[][] start) throws NoSolutionExistsException {
 		current = start.clone();
@@ -23,6 +22,10 @@ public class DFSSolver extends Solver {
 	}
 
 	/**
+	 * If at the start the puzzle the same value in a row or column, immediately
+	 * fail that puzzle: it has no valid solution.
+	 * 
+	 * NOTE: This could also check within blocks, but this is meant to be fast.
 	 * 
 	 * @throws NoSolutionExistsException
 	 */
@@ -40,6 +43,7 @@ public class DFSSolver extends Solver {
 	}
 
 	/**
+	 * Solve any puzzle that can be solved, using a DFS approach.
 	 * 
 	 * @throws NoSolutionExistsException
 	 */
@@ -50,15 +54,14 @@ public class DFSSolver extends Solver {
 		while (i > -1 && i < unsolved.size()) {
 			// System.out.println(i);
 			int[] u = unsolved.get(i);
-			// TODO: I need to test for the effects of this on speed
-			// TODO: byte[] poss = possibles[u[0]][u[1]];
+			byte[] poss = possibles[u[0]][u[1]];
 
 			// if current cell is empty, easy.
 			if (current[u[0]][u[1]] == 0) {
 				boolean found1 = false;
-				for (int k = 0; k < possibles[u[0]][u[1]].length; k++) {
-					if (isPossible(u[0], u[1], possibles[u[0]][u[1]][k])) {
-						current[u[0]][u[1]] = possibles[u[0]][u[1]][k];
+				for (int k = 0; k < poss.length; k++) {
+					if (isPossible(u[0], u[1], poss[k])) {
+						current[u[0]][u[1]] = poss[k];
 						i += 1;
 						found1 = true;
 						break;
@@ -72,20 +75,19 @@ public class DFSSolver extends Solver {
 			} else {
 				// if current cell is not empty, figure out where its value lies
 				// in its possibles list
-				int j = ArrayUtils.findIndex(possibles[u[0]][u[1]],
-						current[u[0]][u[1]]);
+				int j = ArrayUtils.findIndex(poss, current[u[0]][u[1]]);
 
 				// if we've run past the end of the possibles list, take a step
 				// back in the unsolved list
-				if (j == possibles[u[0]][u[1]].length - 1) {
+				if (j == poss.length - 1) {
 					current[u[0]][u[1]] = 0;
 					i -= 1;
 				} else {
 					// Go to the next valid cell in the possibles list
 					boolean found2 = false;
-					for (int k = j + 1; k < possibles[u[0]][u[1]].length; k++) {
-						if (isPossible(u[0], u[1], possibles[u[0]][u[1]][k])) {
-							current[u[0]][u[1]] = possibles[u[0]][u[1]][k];
+					for (int k = j + 1; k < poss.length; k++) {
+						if (isPossible(u[0], u[1], poss[k])) {
+							current[u[0]][u[1]] = poss[k];
 							i += 1;
 							found2 = true;
 							break;
@@ -106,6 +108,8 @@ public class DFSSolver extends Solver {
 	}
 
 	/**
+	 * Create a 3D array with a list of all the possible values at each cell in
+	 * the puzzle.
 	 * 
 	 * @throws NoSolutionExistsException
 	 */
@@ -144,11 +148,11 @@ public class DFSSolver extends Solver {
 	}
 
 	/**
+	 * Find all the unsolved cells in the puzzle.
 	 * 
 	 * @throws NoSolutionExistsException
 	 */
 	private void build_unsolved() throws NoSolutionExistsException {
-		// find all unsolved cells in the puzzle
 		for (int r = 0; r < 9; r++) {
 			for (int c = 0; c < 9; c++) {
 				if (current[r][c] == 0) {
@@ -163,14 +167,11 @@ public class DFSSolver extends Solver {
 	 * here checks the values already filled in each row, column, and block in
 	 * the puzzle.
 	 * 
-	 * @param row
-	 * @param col
-	 * @param val
-	 * @return
+	 * @return true if val would be a valid addition to the puzzle.
 	 */
 	private boolean isPossible(int row, int col, byte val) {
-		if (isPossibleRow(row, col, val)) {
-			if (isPossibleCol(row, col, val)) {
+		if (isPossibleCol(row, col, val)) {
+			if (isPossibleRow(row, col, val)) {
 				if (isPossibleBlock(row, col, val)) {
 					return true;
 				}
@@ -181,13 +182,11 @@ public class DFSSolver extends Solver {
 	}
 
 	/**
+	 * Determine if a particular value exists else where in the col.
 	 * 
-	 * @param row
-	 * @param col
-	 * @param val
-	 * @return
+	 * @return true if val would be a valid addition to the column
 	 */
-	private boolean isPossibleRow(int row, int col, byte val) {
+	private boolean isPossibleCol(int row, int col, byte val) {
 		for (int i = 0; i < 9; i++) {
 			if (i == col) {
 				continue;
@@ -201,13 +200,11 @@ public class DFSSolver extends Solver {
 	}
 
 	/**
+	 * Determine if a particular value exists else where in the row.
 	 * 
-	 * @param row
-	 * @param col
-	 * @param val
-	 * @return
+	 * @return true if val would be a valid addition to the row
 	 */
-	private boolean isPossibleCol(int row, int col, byte val) {
+	private boolean isPossibleRow(int row, int col, byte val) {
 		for (int i = 0; i < 9; i++) {
 			if (i == row) {
 				continue;
@@ -221,11 +218,9 @@ public class DFSSolver extends Solver {
 	}
 
 	/**
+	 * Determine if a particular value exists else where in the block.
 	 * 
-	 * @param row
-	 * @param col
-	 * @param val
-	 * @return
+	 * @return true if val would be a valid addition to the block
 	 */
 	private boolean isPossibleBlock(int row, int col, byte val) {
 		byte[][] elements = blocks[row][col];
