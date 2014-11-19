@@ -45,22 +45,61 @@ public class DFSSolver extends Solver {
 	 */
 	private void dsf_solve() throws NoSolutionExistsException {
 		int i = 0;
+
+		// loop through the unsolved cells list
 		while (i > -1 && i < unsolved.size()) {
-			int[] ucell = unsolved.get(i);
-			if (current[ucell[0]][ucell[1]] == 0) {
-				current[ucell[0]][ucell[1]] = possibles[ucell[0]][ucell[1]][0];
-				i += 1;
+			//System.out.println(i);
+			int[] u = unsolved.get(i);
+
+			// if current cell is empty, easy.
+			if (current[u[0]][u[1]] == 0) {
+				boolean found1 = false;
+				for (int k = 0; k < possibles[u[0]][u[1]].length; k++) {
+					if (isPossible(u[0], u[1], possibles[u[0]][u[1]][k])) {
+						current[u[0]][u[1]] = possibles[u[0]][u[1]][k];
+						i += 1;
+						found1 = true;
+						break;
+					}
+				}
+
+				if (!found1) {
+					current[u[0]][u[1]] = 0;
+					i -= 1;
+				}
 			} else {
-				int j = ArrayUtils.findIndex(possibles[ucell[0]][ucell[1]],
-						current[ucell[0]][ucell[1]]);
-				if (j == possibles[ucell[0]][ucell[1]].length - 1) {
-					current[ucell[0]][ucell[1]] = 0;
+				// if current cell is not empty, figure out where its value lies
+				// in its possibles list
+				int j = ArrayUtils.findIndex(possibles[u[0]][u[1]],
+						current[u[0]][u[1]]);
+
+				// if we've run past the end of the possibles list, take a step
+				// back in the unsolved list
+				if (j == possibles[u[0]][u[1]].length - 1) {
+					current[u[0]][u[1]] = 0;
 					i -= 1;
 				} else {
-					current[ucell[0]][ucell[1]] = possibles[ucell[0]][ucell[1]][j + 1];
-					i += 1;
+					// Go to the next valid cell in the possibles list
+					boolean found2 = false;
+					for (int k = j+1; k < possibles[u[0]][u[1]].length; k++) {
+						if (isPossible(u[0], u[1], possibles[u[0]][u[1]][k])) {
+							current[u[0]][u[1]] = possibles[u[0]][u[1]][k];
+							i += 1;
+							found2 = true;
+							break;
+						}
+					}
+
+					if (!found2) {
+						current[u[0]][u[1]] = 0;
+						i -= 1;
+					}
 				}
 			}
+		}
+
+		if (i <= 0) {
+			throw new NoSolutionExistsException("The puzzle is not solvable.");
 		}
 	}
 

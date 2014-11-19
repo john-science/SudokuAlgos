@@ -9,15 +9,17 @@ package net.antineutrino.SudokuAlgos;
  */
 public class App {
 	public static void main(String[] args) {
-		byte[][] start = { { 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		byte[][] problem = { { 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 				{ 0, 0, 0, 0, 0, 0, 5, 2, 3 }, { 0, 0, 0, 0, 0, 0, 0, 1, 8 },
 				{ 0, 0, 0, 0, 0, 0, 0, 0, 0 }, { 0, 0, 9, 0, 7, 4, 0, 6, 0 },
 				{ 0, 0, 4, 6, 1, 0, 0, 0, 7 }, { 0, 5, 8, 0, 4, 3, 0, 0, 0 },
 				{ 0, 4, 0, 0, 2, 0, 0, 3, 0 }, { 0, 6, 7, 0, 8, 1, 0, 9, 4 } };
 		DFSSolver dfs = new DFSSolver();
 		try {
-			ArrayUtils.printArray(start);
-			byte[][] solution = dfs.solve(start);
+			System.out.println("Problem:");
+			ArrayUtils.printArray(problem);
+			byte[][] solution = dfs.solve(problem);
+			System.out.println("\nSolution:");
 			ArrayUtils.printArray(solution);
 		} catch (NoSolutionExistsException e) {
 			System.out.println(e);
