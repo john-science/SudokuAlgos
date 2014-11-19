@@ -1,5 +1,6 @@
 package net.antineutrino.SudokuAlgos;
 
+import java.util.Arrays;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -58,7 +59,7 @@ public class DFSSolverTest extends TestCase {
 				{ 4, 5, 8, 7, 6, 2, 9, 1, 3 }, { 6, 1, 2, 3, 9, 4, 5, 7, 8 },
 				{ 9, 7, 3, 8, 5, 1, 6, 2, 4 }, { 1, 8, 6, 2, 4, 3, 7, 9, 5 },
 				{ 5, 2, 4, 9, 7, 6, 8, 3, 1 }, { 7, 3, 9, 5, 1, 8, 2, 4, 6 } };
-		assertTrue(test_solution == solution);
+		assertTrue(Arrays.deepEquals(test_solution, solution));
 	}
 
 	/**
@@ -78,12 +79,12 @@ public class DFSSolverTest extends TestCase {
 		System.out.printf("\neasy:\t\t"
 				+ String.format("%,d", endTime - startTime) + " ms");
 
-		byte[][] solution = { { 5, 9, 8, 6, 7, 1, 2, 4, 3 },
-				{ 6, 7, 2, 5, 3, 4, 9, 8, 1 }, { 4, 3, 1, 2, 9, 8, 6, 7, 5 },
-				{ 7, 6, 9, 8, 2, 5, 1, 3, 4 }, { 1, 4, 5, 3, 6, 7, 8, 9, 2 },
-				{ 8, 2, 3, 4, 1, 9, 5, 6, 7 }, { 3, 5, 6, 7, 8, 2, 4, 1, 9 },
-				{ 9, 8, 4, 1, 5, 3, 7, 2, 6 }, { 2, 1, 7, 9, 4, 6, 3, 5, 8 } };
-		assertTrue(test_solution == solution);
+		byte[][] solution = { { 2, 4, 1, 6, 5, 7, 3, 8, 9 },
+				{ 6, 3, 5, 8, 9, 1, 4, 7, 2 }, { 7, 8, 9, 2, 4, 3, 5, 1, 6 },
+				{ 5, 7, 3, 1, 8, 9, 2, 6, 4 }, { 4, 1, 2, 5, 7, 6, 9, 3, 8 },
+				{ 8, 9, 6, 3, 2, 4, 1, 5, 7 }, { 3, 5, 4, 9, 6, 8, 7, 2, 1 },
+				{ 9, 2, 8, 7, 1, 5, 6, 4, 3 }, { 1, 6, 7, 4, 3, 2, 8, 9, 5 } };
+		assertTrue(Arrays.deepEquals(test_solution, solution));
 	}
 
 	/**
@@ -108,7 +109,7 @@ public class DFSSolverTest extends TestCase {
 				{ 7, 6, 9, 8, 2, 5, 1, 3, 4 }, { 1, 4, 5, 3, 6, 7, 8, 9, 2 },
 				{ 8, 2, 3, 4, 1, 9, 5, 6, 7 }, { 3, 5, 6, 7, 8, 2, 4, 1, 9 },
 				{ 9, 8, 4, 1, 5, 3, 7, 2, 6 }, { 2, 1, 7, 9, 4, 6, 3, 5, 8 } };
-		assertTrue(test_solution == solution);
+		assertTrue(Arrays.deepEquals(test_solution, solution));
 	}
 
 	/**
@@ -133,7 +134,7 @@ public class DFSSolverTest extends TestCase {
 				{ 8, 7, 4, 5, 2, 9, 3, 6, 1 }, { 1, 9, 2, 7, 6, 3, 8, 4, 5 },
 				{ 6, 5, 3, 8, 1, 4, 2, 9, 7 }, { 7, 4, 6, 9, 5, 2, 1, 8, 3 },
 				{ 5, 8, 1, 6, 3, 7, 4, 2, 9 }, { 2, 3, 9, 1, 4, 8, 7, 5, 6 } };
-		assertTrue(test_solution == solution);
+		assertTrue(Arrays.deepEquals(test_solution, solution));
 	}
 
 	/**
@@ -158,6 +159,6 @@ public class DFSSolverTest extends TestCase {
 				{ 6, 7, 2, 3, 5, 9, 4, 8, 1 }, { 5, 1, 9, 8, 7, 4, 3, 6, 2 },
 				{ 8, 3, 4, 6, 1, 2, 9, 5, 7 }, { 2, 5, 8, 9, 4, 3, 1, 7, 6 },
 				{ 9, 4, 1, 7, 2, 6, 8, 3, 5 }, { 3, 6, 7, 5, 8, 1, 2, 9, 4 } };
-		assertTrue(test_solution == solution);
+		assertTrue(Arrays.deepEquals(test_solution, solution));
 	}
 }
