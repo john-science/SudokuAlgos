@@ -1,6 +1,6 @@
 package net.antineutrino.SudokuAlgos;
 
 public abstract class Solver {
-	public abstract int[][] solve(int[][] start)
+	public abstract byte[][] solve(byte[][] start)
 			throws NoSolutionExistsException;
 }

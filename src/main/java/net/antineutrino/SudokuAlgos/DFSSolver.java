@@ -3,15 +3,15 @@ package net.antineutrino.SudokuAlgos;
 import java.util.*;
 
 public class DFSSolver extends Solver {
-	private int[][] current;
-	private int[][][] possibles = new int[9][9][1];
+	private byte[][] current;
+	private byte[][][] possibles = new byte[9][9][1];
 	private List<int[]> unsolved = new ArrayList<int[]>();
 
 	/**
 	 * This abstract method solves a Sudoku puzzle using a simple Depth-First
 	 * Search approach.
 	 */
-	public int[][] solve(int[][] start) throws NoSolutionExistsException {
+	public byte[][] solve(byte[][] start) throws NoSolutionExistsException {
 		current = start.clone();
 
 		check_for_duplicates();
@@ -75,8 +75,8 @@ public class DFSSolver extends Solver {
 					possibles[r][c][0] = current[r][c];
 				} else {
 					// Determine which values are still possible for this cell
-					List<Integer> temp = new ArrayList<Integer>();
-					for (int i = 0; i < 9; i++) {
+					List<Byte> temp = new ArrayList<Byte>();
+					for (byte i = 1; i < 10; i++) {
 						if (isPossible(r, c, i)) {
 							temp.add(i);
 						}
@@ -87,14 +87,14 @@ public class DFSSolver extends Solver {
 						throw new NoSolutionExistsException(
 								"The puzzle is not solvable.");
 					} else if (temp.size() == 1) {
-						// If there is only one possibility, just fix it now.
+						// If there is only one possibility, fix it now.
 						current[r][c] = temp.get(0);
 					}
 
 					// Add those values to the possibles array.
-					int[] poss = new int[temp.size()];
+					byte[] poss = new byte[temp.size()];
 					for (int i = 0; i < temp.size(); i++) {
-						poss[i] = temp.get(i).intValue();
+						poss[i] = temp.get(i).byteValue();
 					}
 					possibles[r][c] = poss;
 				}
@@ -131,7 +131,7 @@ public class DFSSolver extends Solver {
 	 * @param val
 	 * @return
 	 */
-	private boolean isPossible(int row, int col, int val) {
+	private boolean isPossible(int row, int col, byte val) {
 		if (isPossibleRow(row, col, val)) {
 			if (isPossibleCol(row, col, val)) {
 				if (isPossibleBlock(row, col, val)) {
@@ -150,7 +150,7 @@ public class DFSSolver extends Solver {
 	 * @param val
 	 * @return
 	 */
-	private boolean isPossibleRow(int row, int col, int val) {
+	private boolean isPossibleRow(int row, int col, byte val) {
 		for (int i = 0; i < 9; i++) {
 			if (i == col) {
 				continue;
@@ -170,7 +170,7 @@ public class DFSSolver extends Solver {
 	 * @param val
 	 * @return
 	 */
-	private boolean isPossibleCol(int row, int col, int val) {
+	private boolean isPossibleCol(int row, int col, byte val) {
 		for (int i = 0; i < 9; i++) {
 			if (i == row) {
 				continue;
@@ -190,8 +190,8 @@ public class DFSSolver extends Solver {
 	 * @param val
 	 * @return
 	 */
-	private boolean isPossibleBlock(int row, int col, int val) {
-		int[][] elements = blocks[row][col];
+	private boolean isPossibleBlock(int row, int col, byte val) {
+		byte[][] elements = blocks[row][col];
 
 		for (int i = 0; i < 8; i++) {
 			if (current[elements[i][0]][elements[i][1]] == val) {
@@ -209,7 +209,7 @@ public class DFSSolver extends Solver {
 	 * NOTE: This is a static attribute, though it could be calculated on the
 	 * fly easily, for performance.
 	 */
-	private static int[][][][] blocks = {
+	private static byte[][][][] blocks = {
 			// row 1
 			{
 					{ { 0, 1 }, { 0, 2 }, { 1, 0 }, { 1, 1 }, { 1, 2 },
@@ -272,64 +272,64 @@ public class DFSSolver extends Solver {
 							{ 1, 8 }, { 2, 6 }, { 2, 7 } } }, // col 9
 			// row 4
 			{
-					{ { 4, 1 }, { 4, 2 }, { 5, 0 }, { 5, 1 }, { 5, 2 },
-							{ 6, 0 }, { 6, 1 }, { 6, 2 } }, // col 1
-					{ { 4, 0 }, { 4, 2 }, { 5, 0 }, { 5, 1 }, { 5, 2 },
-							{ 6, 0 }, { 6, 1 }, { 6, 2 } }, // col 2
-					{ { 4, 0 }, { 4, 1 }, { 5, 0 }, { 5, 1 }, { 5, 2 },
-							{ 6, 0 }, { 6, 1 }, { 6, 2 } }, // col 3
-					{ { 4, 4 }, { 4, 5 }, { 5, 3 }, { 5, 4 }, { 5, 5 },
-							{ 6, 3 }, { 6, 4 }, { 6, 5 } }, // col 4
-					{ { 4, 3 }, { 4, 5 }, { 5, 3 }, { 5, 4 }, { 5, 5 },
-							{ 6, 3 }, { 6, 4 }, { 6, 5 } }, // col 5
-					{ { 4, 3 }, { 4, 4 }, { 5, 3 }, { 5, 4 }, { 5, 5 },
-							{ 6, 3 }, { 6, 4 }, { 6, 5 } }, // col 6
-					{ { 4, 7 }, { 4, 8 }, { 5, 6 }, { 5, 7 }, { 5, 8 },
-							{ 6, 6 }, { 6, 7 }, { 6, 8 } }, // col 7
-					{ { 4, 6 }, { 4, 8 }, { 5, 6 }, { 5, 7 }, { 5, 8 },
-							{ 6, 6 }, { 6, 7 }, { 6, 8 } }, // col 8
-					{ { 4, 6 }, { 4, 7 }, { 5, 6 }, { 5, 7 }, { 5, 8 },
-							{ 6, 6 }, { 6, 7 }, { 6, 8 } } }, // col 9
+					{ { 3, 1 }, { 3, 2 }, { 4, 0 }, { 4, 1 }, { 4, 2 },
+							{ 5, 0 }, { 5, 1 }, { 5, 2 } }, // col 1
+					{ { 3, 0 }, { 3, 2 }, { 4, 0 }, { 4, 1 }, { 4, 2 },
+							{ 5, 0 }, { 5, 1 }, { 5, 2 } }, // col 2
+					{ { 3, 0 }, { 3, 1 }, { 4, 0 }, { 4, 1 }, { 4, 2 },
+							{ 5, 0 }, { 5, 1 }, { 5, 2 } }, // col 3
+					{ { 3, 4 }, { 3, 5 }, { 4, 3 }, { 4, 4 }, { 4, 5 },
+							{ 5, 3 }, { 5, 4 }, { 5, 5 } }, // col 4
+					{ { 3, 3 }, { 3, 5 }, { 4, 3 }, { 4, 4 }, { 4, 5 },
+							{ 5, 3 }, { 5, 4 }, { 5, 5 } }, // col 5
+					{ { 3, 3 }, { 3, 4 }, { 4, 3 }, { 4, 4 }, { 4, 5 },
+							{ 5, 3 }, { 5, 4 }, { 5, 5 } }, // col 6
+					{ { 3, 7 }, { 3, 8 }, { 4, 6 }, { 4, 7 }, { 4, 8 },
+							{ 5, 6 }, { 5, 7 }, { 5, 8 } }, // col 7
+					{ { 3, 6 }, { 3, 8 }, { 4, 6 }, { 4, 7 }, { 4, 8 },
+							{ 5, 6 }, { 5, 7 }, { 5, 8 } }, // col 8
+					{ { 3, 6 }, { 3, 7 }, { 4, 6 }, { 4, 7 }, { 4, 8 },
+							{ 5, 6 }, { 5, 7 }, { 5, 8 } } }, // col 9
 			// row 5
 			{
-					{ { 4, 0 }, { 4, 1 }, { 4, 2 }, { 5, 1 }, { 5, 2 },
-							{ 6, 0 }, { 6, 1 }, { 6, 2 } }, // col 1
-					{ { 4, 0 }, { 4, 1 }, { 4, 2 }, { 5, 0 }, { 5, 2 },
-							{ 6, 0 }, { 6, 1 }, { 6, 2 } }, // col 2
-					{ { 4, 0 }, { 4, 1 }, { 4, 2 }, { 5, 0 }, { 5, 1 },
-							{ 6, 0 }, { 6, 1 }, { 6, 2 } }, // col 3
-					{ { 4, 3 }, { 4, 4 }, { 4, 5 }, { 5, 4 }, { 5, 5 },
-							{ 6, 3 }, { 6, 4 }, { 6, 5 } }, // col 4
-					{ { 4, 3 }, { 4, 4 }, { 4, 5 }, { 5, 3 }, { 5, 5 },
-							{ 6, 3 }, { 6, 4 }, { 6, 5 } }, // col 5
-					{ { 4, 3 }, { 4, 4 }, { 4, 5 }, { 5, 3 }, { 5, 4 },
-							{ 6, 3 }, { 6, 4 }, { 6, 5 } }, // col 6
-					{ { 4, 6 }, { 4, 7 }, { 4, 8 }, { 5, 7 }, { 5, 8 },
-							{ 6, 6 }, { 6, 7 }, { 6, 8 } }, // col 7
-					{ { 4, 6 }, { 4, 7 }, { 4, 8 }, { 5, 6 }, { 5, 8 },
-							{ 6, 6 }, { 6, 7 }, { 6, 8 } }, // col 8
-					{ { 4, 6 }, { 4, 7 }, { 4, 8 }, { 5, 6 }, { 5, 7 },
-							{ 6, 6 }, { 6, 7 }, { 6, 8 } } }, // col 9
+					{ { 3, 0 }, { 3, 1 }, { 3, 2 }, { 4, 1 }, { 4, 2 },
+							{ 5, 0 }, { 5, 1 }, { 5, 2 } }, // col 1
+					{ { 3, 0 }, { 3, 1 }, { 3, 2 }, { 4, 0 }, { 4, 2 },
+							{ 5, 0 }, { 5, 1 }, { 5, 2 } }, // col 2
+					{ { 3, 0 }, { 3, 1 }, { 3, 2 }, { 4, 0 }, { 4, 1 },
+							{ 5, 0 }, { 5, 1 }, { 5, 2 } }, // col 3
+					{ { 3, 3 }, { 3, 4 }, { 3, 5 }, { 4, 4 }, { 4, 5 },
+							{ 5, 3 }, { 5, 4 }, { 5, 5 } }, // col 4
+					{ { 3, 3 }, { 3, 4 }, { 3, 5 }, { 4, 3 }, { 4, 5 },
+							{ 5, 3 }, { 5, 4 }, { 5, 5 } }, // col 5
+					{ { 3, 3 }, { 3, 4 }, { 3, 5 }, { 4, 3 }, { 4, 4 },
+							{ 5, 3 }, { 5, 4 }, { 5, 5 } }, // col 6
+					{ { 3, 6 }, { 3, 7 }, { 3, 8 }, { 4, 7 }, { 4, 8 },
+							{ 5, 6 }, { 5, 7 }, { 5, 8 } }, // col 7
+					{ { 3, 6 }, { 3, 7 }, { 3, 8 }, { 4, 6 }, { 4, 8 },
+							{ 5, 6 }, { 5, 7 }, { 5, 8 } }, // col 8
+					{ { 3, 6 }, { 3, 7 }, { 3, 8 }, { 4, 6 }, { 4, 7 },
+							{ 5, 6 }, { 5, 7 }, { 5, 8 } } }, // col 9
 			// row 6
 			{
-					{ { 4, 0 }, { 4, 1 }, { 4, 2 }, { 5, 0 }, { 5, 1 },
-							{ 5, 2 }, { 6, 1 }, { 6, 2 } }, // col 1
-					{ { 4, 0 }, { 4, 1 }, { 4, 2 }, { 5, 0 }, { 5, 1 },
-							{ 5, 2 }, { 6, 0 }, { 6, 2 } }, // col 2
-					{ { 4, 0 }, { 4, 1 }, { 4, 2 }, { 5, 0 }, { 5, 1 },
-							{ 5, 2 }, { 6, 0 }, { 6, 1 } }, // col 3
-					{ { 4, 3 }, { 4, 4 }, { 4, 5 }, { 5, 3 }, { 5, 4 },
-							{ 5, 5 }, { 6, 4 }, { 6, 5 } }, // col 4
-					{ { 4, 3 }, { 4, 4 }, { 4, 5 }, { 5, 3 }, { 5, 4 },
-							{ 5, 5 }, { 6, 3 }, { 6, 5 } }, // col 5
-					{ { 4, 3 }, { 4, 4 }, { 4, 5 }, { 5, 3 }, { 5, 4 },
-							{ 5, 5 }, { 6, 3 }, { 6, 4 } }, // col 6
-					{ { 4, 6 }, { 4, 7 }, { 4, 8 }, { 5, 6 }, { 5, 7 },
-							{ 5, 8 }, { 6, 7 }, { 6, 8 } }, // col 7
-					{ { 4, 6 }, { 4, 7 }, { 4, 8 }, { 5, 6 }, { 5, 7 },
-							{ 5, 8 }, { 6, 6 }, { 6, 8 } }, // col 8
-					{ { 4, 6 }, { 4, 7 }, { 4, 8 }, { 5, 6 }, { 5, 7 },
-							{ 5, 8 }, { 6, 6 }, { 6, 7 } } }, // col 9
+					{ { 3, 0 }, { 3, 1 }, { 3, 2 }, { 4, 0 }, { 4, 1 },
+							{ 4, 2 }, { 5, 1 }, { 5, 2 } }, // col 1
+					{ { 3, 0 }, { 3, 1 }, { 3, 2 }, { 4, 0 }, { 4, 1 },
+							{ 4, 2 }, { 5, 0 }, { 5, 2 } }, // col 2
+					{ { 3, 0 }, { 3, 1 }, { 3, 2 }, { 4, 0 }, { 4, 1 },
+							{ 4, 2 }, { 5, 0 }, { 5, 1 } }, // col 3
+					{ { 3, 3 }, { 3, 4 }, { 3, 5 }, { 4, 3 }, { 4, 4 },
+							{ 4, 5 }, { 5, 4 }, { 5, 5 } }, // col 4
+					{ { 3, 3 }, { 3, 4 }, { 3, 5 }, { 4, 3 }, { 4, 4 },
+							{ 4, 5 }, { 5, 3 }, { 5, 5 } }, // col 5
+					{ { 3, 3 }, { 3, 4 }, { 3, 5 }, { 4, 3 }, { 4, 4 },
+							{ 4, 5 }, { 5, 3 }, { 5, 4 } }, // col 6
+					{ { 3, 6 }, { 3, 7 }, { 3, 8 }, { 4, 6 }, { 4, 7 },
+							{ 4, 8 }, { 5, 7 }, { 5, 8 } }, // col 7
+					{ { 3, 6 }, { 3, 7 }, { 3, 8 }, { 4, 6 }, { 4, 7 },
+							{ 4, 8 }, { 5, 6 }, { 5, 8 } }, // col 8
+					{ { 3, 6 }, { 3, 7 }, { 3, 8 }, { 4, 6 }, { 4, 7 },
+							{ 4, 8 }, { 5, 6 }, { 5, 7 } } }, // col 9
 			// row 7
 			{
 					{ { 6, 1 }, { 6, 2 }, { 7, 0 }, { 7, 1 }, { 7, 2 },
