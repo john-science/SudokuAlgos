@@ -4,7 +4,8 @@ package net.antineutrino.SudokuAlgos;
 //       http://malalanayake.wordpress.com/2014/03/10/create-simple-maven-repository-on-github/
 
 /**
- * 
+ * This is a quick test of the speed of the DFS Solver for Sudoku puzzles of
+ * various difficulties.
  */
 public class DFSSolverSpeedTesting {
 	public static void main(String[] args) {
@@ -47,7 +48,7 @@ public class DFSSolverSpeedTesting {
 				{ 6, 0, 0, 8, 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0, 2, 0, 0, 3 },
 				{ 5, 0, 1, 6, 3, 0, 4, 0, 0 }, { 0, 3, 9, 1, 4, 8, 7, 5, 6 } };
 		startTime = System.nanoTime();
-		//testDFSSolver(hard);
+		testDFSSolver(hard);
 		endTime = System.nanoTime();
 		System.out.println("\nhard");
 		System.out.println(String.format("%,d", endTime - startTime));
@@ -58,7 +59,7 @@ public class DFSSolverSpeedTesting {
 				{ 0, 0, 4, 6, 1, 0, 0, 0, 7 }, { 0, 5, 8, 0, 4, 3, 0, 0, 0 },
 				{ 0, 4, 0, 0, 2, 0, 0, 3, 0 }, { 0, 6, 7, 0, 8, 1, 0, 9, 4 } };
 		startTime = System.nanoTime();
-		//testDFSSolver(evil);
+		testDFSSolver(evil);
 		endTime = System.nanoTime();
 		System.out.println("\nevil");
 		System.out.println(String.format("%,d", endTime - startTime));
@@ -67,11 +68,10 @@ public class DFSSolverSpeedTesting {
 	public static void testDFSSolver(byte[][] problem) {
 		DFSSolver dfs = new DFSSolver();
 		try {
-			System.out.println("\nProblem:");
-			ArrayUtils.printArray(problem);
+			//ArrayUtils.printArray(problem);
 			byte[][] solution = dfs.solve(problem);
-			System.out.println("\nSolution:");
-			ArrayUtils.printArray(solution);
+			//System.out.println("\nSolution:");
+			//ArrayUtils.printArray(solution);
 		} catch (NoSolutionExistsException e) {
 			System.out.println(e);
 		}
