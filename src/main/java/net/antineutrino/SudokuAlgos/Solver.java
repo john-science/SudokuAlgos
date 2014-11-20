@@ -11,7 +11,7 @@ public abstract class Solver {
 	 * NOTE: This is a static attribute for the sake of performance, though it
 	 * could easily be calculated on the fly.
 	 */
-	protected static byte[][][][] blocks = {
+	public static byte[][][][] blocks = {
 			// row 1
 			{
 					{ { 0, 1 }, { 0, 2 }, { 1, 0 }, { 1, 1 }, { 1, 2 },

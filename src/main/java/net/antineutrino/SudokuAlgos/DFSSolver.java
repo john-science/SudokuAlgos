@@ -33,7 +33,7 @@ public class DFSSolver extends Solver {
 		for (int r = 0; r < 9; r++) {
 			for (int c = 0; c < 9; c++) {
 				if (current[r][c] != 0) {
-					if (!isPossible(r, c, current[r][c])) {
+					if (!Rules.isPossible(current, r, c, current[r][c])) {
 						throw new NoSolutionExistsException(
 								"The puzzle is not solvable.");
 					}
@@ -60,7 +60,7 @@ public class DFSSolver extends Solver {
 			if (current[u[0]][u[1]] == 0) {
 				boolean found1 = false;
 				for (int k = 0; k < poss.length; k++) {
-					if (isPossible(u[0], u[1], poss[k])) {
+					if (Rules.isPossible(current, u[0], u[1], poss[k])) {
 						current[u[0]][u[1]] = poss[k];
 						i += 1;
 						found1 = true;
@@ -86,7 +86,7 @@ public class DFSSolver extends Solver {
 					// Go to the next valid cell in the possibles list
 					boolean found2 = false;
 					for (int k = j + 1; k < poss.length; k++) {
-						if (isPossible(u[0], u[1], poss[k])) {
+						if (Rules.isPossible(current, u[0], u[1], poss[k])) {
 							current[u[0]][u[1]] = poss[k];
 							i += 1;
 							found2 = true;
@@ -122,7 +122,7 @@ public class DFSSolver extends Solver {
 					// Determine which values are still possible for this cell
 					List<Byte> temp = new ArrayList<Byte>();
 					for (byte i = 1; i < 10; i++) {
-						if (isPossible(r, c, i)) {
+						if (Rules.isPossible(current, r, c, i)) {
 							temp.add(i);
 						}
 					}
@@ -160,77 +160,5 @@ public class DFSSolver extends Solver {
 				}
 			}
 		}
-	}
-
-	/**
-	 * Determine if a particular value is possible, for a given cell. The logic
-	 * here checks the values already filled in each row, column, and block in
-	 * the puzzle.
-	 * 
-	 * @return true if val would be a valid addition to the puzzle.
-	 */
-	private boolean isPossible(int row, int col, byte val) {
-		if (isPossibleCol(row, col, val)) {
-			if (isPossibleRow(row, col, val)) {
-				if (isPossibleBlock(row, col, val)) {
-					return true;
-				}
-			}
-		}
-
-		return false;
-	}
-
-	/**
-	 * Determine if a particular value exists else where in the col.
-	 * 
-	 * @return true if val would be a valid addition to the column
-	 */
-	private boolean isPossibleCol(int row, int col, byte val) {
-		for (int i = 0; i < 9; i++) {
-			if (i == col) {
-				continue;
-			}
-			if (current[row][i] == val) {
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	/**
-	 * Determine if a particular value exists else where in the row.
-	 * 
-	 * @return true if val would be a valid addition to the row
-	 */
-	private boolean isPossibleRow(int row, int col, byte val) {
-		for (int i = 0; i < 9; i++) {
-			if (i == row) {
-				continue;
-			}
-			if (current[i][col] == val) {
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	/**
-	 * Determine if a particular value exists else where in the block.
-	 * 
-	 * @return true if val would be a valid addition to the block
-	 */
-	private boolean isPossibleBlock(int row, int col, byte val) {
-		byte[][] elements = blocks[row][col];
-
-		for (int i = 0; i < 8; i++) {
-			if (current[elements[i][0]][elements[i][1]] == val) {
-				return false;
-			}
-		}
-
-		return true;
 	}
 }
