@@ -39,6 +39,6 @@ public class TerminalPatternTest extends TestCase {
 	 */
 	public void testBasicCreate() {
 		byte[][] terminal_pattern = testBasicTerminalCreator();
-		assertTrue(true);
+		assertTrue(TerminalPattern.validate(terminal_pattern));
 	}
 }

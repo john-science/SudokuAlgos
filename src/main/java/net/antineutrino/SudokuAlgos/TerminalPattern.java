@@ -43,12 +43,19 @@ public class TerminalPattern {
 	}
 
 	/**
+	 * Verify that a final 9x9 grid is indeed a valid Sudoku solution.
 	 * 
-	 * @param puzzle
-	 * @return
+	 * @param puzzle to be tested
+	 * @return true if it is a valid puzzle, otherwise false
 	 */
 	public static boolean validate(byte[][] puzzle) {
-		// TODO: Everything.
-		return false;
+		for (int r = 0; r < 9; r++) {
+			for (int c = 0; c < 9; c++) {
+				if (!Rules.isPossible(puzzle, r, c, puzzle[r][c])) {
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 }
