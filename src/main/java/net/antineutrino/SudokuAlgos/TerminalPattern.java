@@ -20,9 +20,8 @@ public class TerminalPattern {
 			{ 0, 5 }, { 0, 6 }, { 0, 7 }, { 0, 8 }, { 0, 0 } };
 
 	/**
-	 * Create a valid terminal pattern for a Sudoku puzzle, but randomly
-	 * choosing cells from a blank puzzle and giving them randomly-selected
-	 * starting values.
+	 * Create a valid terminal pattern for a Sudoku puzzle, by randomly starting
+	 * 9 cells and solving with a provided solving algorithm.
 	 * 
 	 * @return - a 2D byte array, terminal puzzle pattern
 	 */
@@ -39,6 +38,7 @@ public class TerminalPattern {
 			pattern[cells[i - 1][0]][cells[i - 1][1]] = i;
 		}
 
+		// solve using the provided solving pattern
 		return s.solve(pattern);
 	}
 
