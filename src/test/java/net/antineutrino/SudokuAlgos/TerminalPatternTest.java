@@ -27,7 +27,7 @@ public class TerminalPatternTest extends TestCase {
 
 	public static byte[][] testBasicTerminalCreator() {
 		try {
-			return TerminalPattern.create();
+			return TerminalPattern.create(new DFSSolver());
 		} catch (NoSolutionExistsException e) {
 			System.out.println(e);
 			return new byte[9][9];

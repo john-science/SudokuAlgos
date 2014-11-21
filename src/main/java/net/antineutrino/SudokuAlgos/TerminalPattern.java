@@ -26,7 +26,7 @@ public class TerminalPattern {
 	 * 
 	 * @return - a 2D byte array, terminal puzzle pattern
 	 */
-	public static byte[][] create() throws NoSolutionExistsException {
+	public static byte[][] create(Solver s) throws NoSolutionExistsException {
 		// start with a blank puzzle
 		byte[][] pattern = new byte[9][9];
 
@@ -39,36 +39,7 @@ public class TerminalPattern {
 			pattern[cells[i - 1][0]][cells[i - 1][1]] = i;
 		}
 
-		// randomly set valid values for the rest of the cells
-		List<Byte> possibles;
-		Random rand = new Random();
-		for (int i = 10; i < 82; i++) {
-			possibles = new ArrayList<Byte>();
-
-			// check what values are valid for this cell
-			for (byte j = 1; j < 10; j++) {
-				if (Rules.isPossible(pattern, cells[i][0], cells[i][1], j)) {
-					possibles.add(j);
-				}
-			}
-
-			// there should be SOME valid values
-			if (possibles.size() == 0) {
-				System.out.println(i);
-				System.out.println(cells[i][0]);
-				System.out.println(cells[i][1]);
-				ArrayUtils.printArray(pattern);
-				// TODO: Is this the correct exception?
-				throw new NoSolutionExistsException(
-						"Problem generating terminal pattern");
-			}
-
-			// randomly pick a valid value
-			pattern[cells[i][0]][cells[i][1]] = possibles.get(rand
-					.nextInt(possibles.size()));
-		}
-
-		return pattern;
+		return s.solve(pattern);
 	}
 
 	/**

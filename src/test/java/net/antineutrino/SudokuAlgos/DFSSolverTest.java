@@ -52,7 +52,7 @@ public class DFSSolverTest extends TestCase {
 
 		System.out.printf("\nTiming Known Sudoku Puzzles");
 		System.out.printf("\nvery easy:\t"
-				+ String.format("%,d", endTime - startTime) + " ms");
+				+ String.format("%,d", endTime - startTime) + " ns");
 
 		byte[][] solution = { { 3, 6, 7, 4, 2, 5, 1, 8, 9 },
 				{ 2, 4, 5, 1, 8, 9, 3, 6, 7 }, { 8, 9, 1, 6, 3, 7, 4, 5, 2 },
@@ -77,7 +77,7 @@ public class DFSSolverTest extends TestCase {
 		long endTime = System.nanoTime();
 
 		System.out.printf("\neasy:\t\t"
-				+ String.format("%,d", endTime - startTime) + " ms");
+				+ String.format("%,d", endTime - startTime) + " ns");
 
 		byte[][] solution = { { 2, 4, 1, 6, 5, 7, 3, 8, 9 },
 				{ 6, 3, 5, 8, 9, 1, 4, 7, 2 }, { 7, 8, 9, 2, 4, 3, 5, 1, 6 },
@@ -102,7 +102,7 @@ public class DFSSolverTest extends TestCase {
 		long endTime = System.nanoTime();
 
 		System.out.printf("\nmedium:\t\t"
-				+ String.format("%,d", endTime - startTime) + " ms");
+				+ String.format("%,d", endTime - startTime) + " ns");
 
 		byte[][] solution = { { 5, 9, 8, 6, 7, 1, 2, 4, 3 },
 				{ 6, 7, 2, 5, 3, 4, 9, 8, 1 }, { 4, 3, 1, 2, 9, 8, 6, 7, 5 },
@@ -127,7 +127,7 @@ public class DFSSolverTest extends TestCase {
 		long endTime = System.nanoTime();
 
 		System.out.printf("\nhard:\t\t"
-				+ String.format("%,d", endTime - startTime) + " ms");
+				+ String.format("%,d", endTime - startTime) + " ns");
 
 		byte[][] solution = { { 9, 1, 8, 4, 7, 5, 6, 3, 2 },
 				{ 3, 6, 5, 2, 8, 1, 9, 7, 4 }, { 4, 2, 7, 3, 9, 6, 5, 1, 8 },
@@ -152,7 +152,7 @@ public class DFSSolverTest extends TestCase {
 		long endTime = System.nanoTime();
 
 		System.out.printf("\nevil:\t\t"
-				+ String.format("%,d", endTime - startTime) + " ms");
+				+ String.format("%,d", endTime - startTime) + " ns");
 
 		byte[][] solution = { { 7, 2, 5, 1, 3, 8, 6, 4, 9 },
 				{ 1, 8, 6, 4, 9, 7, 5, 2, 3 }, { 4, 9, 3, 2, 6, 5, 7, 1, 8 },
