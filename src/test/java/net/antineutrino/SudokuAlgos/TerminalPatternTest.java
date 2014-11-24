@@ -54,4 +54,56 @@ public class TerminalPatternTest extends TestCase {
 		terminal_pattern[0][0] = terminal_pattern[0][1];
 		assertFalse(TerminalPattern.validate(terminal_pattern));
 	}
+	
+	/**
+	 * Test of a terminal pattern with errors in a row.
+	 */
+	public void testBadPatternRow() {
+		// fifth row has two 4s
+		byte[][] terminal_pattern = { { 2, 4, 1, 6, 5, 7, 3, 8, 9 },
+			{ 6, 3, 5, 8, 9, 1, 4, 7, 2 }, { 7, 8, 9, 2, 4, 3, 5, 1, 6 },
+			{ 5, 7, 3, 1, 8, 9, 2, 6, 4 }, { 4, 1, 2, 5, 7, 6, 9, 4, 8 },
+			{ 8, 9, 6, 3, 2, 4, 1, 5, 7 }, { 3, 5, 4, 9, 6, 8, 7, 2, 1 },
+			{ 9, 2, 8, 7, 1, 5, 6, 4, 3 }, { 1, 6, 7, 4, 3, 2, 8, 9, 5 } };
+		assertFalse(TerminalPattern.validate(terminal_pattern));
+	}
+	
+	/**
+	 * Test of a terminal pattern with errors in a column.
+	 */
+	public void testBadPatternCol() {
+		// first column has two 4s
+		byte[][] terminal_pattern = { { 2, 4, 1, 6, 5, 7, 3, 8, 9 },
+			{ 6, 3, 5, 8, 9, 1, 4, 7, 2 }, { 7, 8, 9, 2, 4, 3, 5, 1, 6 },
+			{ 5, 7, 3, 1, 8, 9, 2, 6, 4 }, { 4, 1, 2, 5, 7, 6, 9, 3, 8 },
+			{ 8, 9, 6, 3, 2, 4, 1, 5, 7 }, { 3, 5, 4, 9, 6, 8, 7, 2, 1 },
+			{ 9, 2, 8, 7, 1, 5, 6, 4, 3 }, { 4, 6, 7, 4, 3, 2, 8, 9, 5 } };
+		assertFalse(TerminalPattern.validate(terminal_pattern));
+	}
+	
+	/**
+	 * Test of a terminal pattern with errors in a block.
+	 */
+	public void testBadPatternBlock() {
+		// first block has two 2s
+		byte[][] terminal_pattern = { { 2, 4, 1, 6, 5, 7, 3, 8, 9 },
+			{ 6, 3, 5, 8, 9, 1, 4, 7, 2 }, { 7, 8, 2, 2, 4, 3, 5, 1, 6 },
+			{ 5, 7, 3, 1, 8, 9, 2, 6, 4 }, { 4, 1, 2, 5, 7, 6, 9, 3, 8 },
+			{ 8, 9, 6, 3, 2, 4, 1, 5, 7 }, { 3, 5, 4, 9, 6, 8, 7, 2, 1 },
+			{ 9, 2, 8, 7, 1, 5, 6, 4, 3 }, { 4, 6, 7, 4, 3, 2, 8, 9, 5 } };
+		assertFalse(TerminalPattern.validate(terminal_pattern));
+	}
+	
+	/**
+	 * Test of a terminal pattern with invalid numbers
+	 */
+	public void testBadPatternValues() {
+		// pattern includes to invalid values: -9 and 19
+		byte[][] terminal_pattern = { { 2, 4, 1, 6, 5, 7, 3, 8, -9 },
+			{ 6, 3, 5, 8, 9, 1, 4, 7, 2 }, { 7, 8, 2, 2, 4, 3, 5, 1, 6 },
+			{ 5, 7, 3, 1, 8, 9, 2, 6, 4 }, { 4, 1, 2, 5, 7, 6, 9, 3, 8 },
+			{ 8, 9, 6, 3, 2, 4, 1, 5, 7 }, { 3, 5, 4, 9, 6, 8, 7, 2, 1 },
+			{ 9, 2, 8, 7, 1, 5, 6, 4, 3 }, { 4, 6, 7, 4, 3, 2, 8, 9, 15 } };
+		assertFalse(TerminalPattern.validate(terminal_pattern));
+	}
 }
