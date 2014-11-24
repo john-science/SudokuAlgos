@@ -5,7 +5,7 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 /**
- * Unit test for simple App.
+ * Unit test for various terminal pattern functions.
  */
 public class TerminalPatternTest extends TestCase {
 	/**
@@ -35,10 +35,23 @@ public class TerminalPatternTest extends TestCase {
 	}
 
 	/**
-	 * Test to make sure a terminal pattern can be created.
+	 * Test of terminal pattern creator (and validator)
 	 */
 	public void testBasicCreate() {
+		byte[][] terminal_pattern = new byte[9][9];
+		for (int i = 0; i < 10; i++){
+			terminal_pattern = testBasicTerminalCreator();
+			assertTrue(TerminalPattern.validate(terminal_pattern));
+		}
+	}
+
+	/**
+	 * Test of terminal pattern validator (and creator)
+	 */
+	public void testBasicValidate() {
 		byte[][] terminal_pattern = testBasicTerminalCreator();
 		assertTrue(TerminalPattern.validate(terminal_pattern));
+		terminal_pattern[0][0] = terminal_pattern[0][1];
+		assertFalse(TerminalPattern.validate(terminal_pattern));
 	}
 }
