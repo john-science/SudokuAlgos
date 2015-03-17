@@ -8,7 +8,7 @@ import java.io.*;
 import java.util.Arrays;
 
 /**
- * Unit test for Depth-First Search Sudoku Solver.
+ * Unit test for Depth-First Search Sudoku Solver, using a Project Euler puzzle.
  */
 public class ProjectEuler96SolverTest extends TestCase {
 	/**
@@ -28,6 +28,9 @@ public class ProjectEuler96SolverTest extends TestCase {
 		return new TestSuite(ProjectEuler96SolverTest.class);
 	}
 
+	/**
+	 * Solve a single Sudoku puzzle using the DFS solver.
+	 */
 	public static byte[][] dfsSolverTestCase(byte[][] problem) {
 		DFSSolver dfs = new DFSSolver();
 		try {
@@ -39,6 +42,12 @@ public class ProjectEuler96SolverTest extends TestCase {
 		}
 	}
 
+	/**
+	 * This is the meat of the Project Euler puzzle.
+	 * Take the top-left three cells from the solved puzzle and pretend
+	 * they are a three digit number.
+	 * Add up these three digit numbers from all 50 puzzles presented.
+	 */
 	public void testSumAll50Puzzles() {
 		byte[][][] puzzles = parseInputFile();
 
@@ -59,15 +68,13 @@ public class ProjectEuler96SolverTest extends TestCase {
 	}
 
 	/**
-	 * Parse the Project Euler #96 Input File.
+	 * Parse the Project Euler input File.
 	 */
 	public byte[][][] parseInputFile() {
 		byte[][][] puzzles = new byte[50][9][9];
 		String puzzlesFile = "/ProjectEuler96.txt";
 
-		System.out.println(puzzlesFile);
-
-		// reading
+		// read the input file as a text stream.
 		try {
 			InputStream ips = getClass().getResourceAsStream(puzzlesFile);
 
