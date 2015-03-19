@@ -58,4 +58,119 @@ public class TerminalPattern {
 		}
 		return true;
 	}
+	
+	public static byte[][] randomize(byte[][] pattern, int iterations) {
+	    // quick validation, so that all subsequent static method calls won't have to validate.
+	    if (pattern.length != 9 or pattern[0].length != 9){
+	        throw new InvalidSolutionException("Pattern was the wrong dimensions.");
+	    }
+	   
+	    int r = 0;
+	    for (int i=0; i < iterations) {
+	        // Min + (int)(Math.random() * ((Max - Min) + 1))
+	        r = (int)(Math.random() * 5;
+	
+	        if (r == 1) {
+	            TerminalPattern.randomizeRows(pattern);
+	        } else if (r == 2) {
+	            TerminalPattern.randomizeTranspose(pattern);
+	        } else if (r == 3) {
+	            TerminalPattern.randomizeRotateClockwise(pattern);
+	        } else if (r == 4) {
+	            TerminalPattern.randomizeBlockRows(pattern);
+	        } else {
+	            TerminalPattern.randomizeNumbers(pattern);
+	        }
+	        // Also, could random columns and column blocks
+	    }
+	   
+	    // Java, call by reference or value? Do I need to return this?
+	    return pattern;
+	}
+
+	private static byte[][] randomizeRows(byte[][] pattern) {
+	    // pick one of 3 blocks, swap two rows
+	   
+	    // choose block row
+	    byte block_num = (byte)(Math.random() * 3);
+	   
+	    // choose rows in block
+	    byte[][] row_swaps = {{0, 1}, {0, 2}, {1, 2}};
+	    byte[] rows = Collections.shuffle(row_swaps)[0];
+	   
+	    // calculate actual row numbers
+	    byte row1 = rows[0] + block_num;  // TODO: probably should be int.
+	    byte row2 = rows[1] + block_num;
+	   
+	    // do the swap
+	   
+	    return pattern;
+	}
+	
+	// Possibly the same as rotating by 90 degrees, then reversing each row
+	// TODO: If so, this is unncessary.
+	private static byte[][] randomizeTranspose(byte[][] pattern) {
+	    /**
+	     * swap:
+	     * (0, 0) & (8, 8)
+	     * (0, 1) & (8, 7)
+	     * (0, 2) & (8, 6)
+	     * ...
+	     * (3, 0) & (5, 8)
+	     */
+	    // only one option
+	    int r = 0;
+	    int c = -1;
+	    int temp_val = 0;
+	    int row_max = 7;
+	    for (int i = 0; i < 36; i++) {
+	        c += 1;
+	        if (c > row_max) {
+	            c = 0;
+	            r += 1;
+	            row_max -= 1;
+	        }
+	       
+	        temp_val = pattern(r, c);
+	        pattern(r, c) = pattern(8 - r, 8 - c);
+	        pattern(8 - r, 8 - c) = temp_val;
+	    }
+	   
+	    return pattern;
+	}
+
+	private static byte[][] randomizeRotateClockwise(byte[][] pattern) {
+	    // 3 options
+	    // TODO: Everything
+	    return pattern;
+	}
+	
+	private static byte[][] randomizeBlockRows(byte[][] pattern) {
+	    // 5 options
+	    // TODO: Everything
+	    return pattern;
+	}
+
+	private static byte[][] randomizeNumbers(byte[][] pattern) {
+	    // pick two numbers to switch
+	    Random rand = new Random();
+	    byte first = 1 + (byte)(Math.random() * 9);
+	    byte second = first;
+	    while (first == second) {
+	        second = 1 + (byte)(Math.random() * 9);
+	    }
+	   
+	    // switch those two numbers in the puzzle
+	    for (int r = 0; r < 9; r ++) {
+	        for (int c = 0; r < c; c ++) {
+	            if (pattern[r][c] == first) {
+	                pattern[r][c] = second;
+	            } else if (pattern[r][c] == second) {
+	                // TODO: make sure this second thing isn't hit, if the first is.
+	                pattern[r][c] = first;
+	            }
+	        }
+	    }
+	    return pattern;
+	}
 }
