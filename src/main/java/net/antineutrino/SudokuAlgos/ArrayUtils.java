@@ -138,4 +138,44 @@ public class ArrayUtils {
 
         return newArray;
     }
+    
+	// Implementing Fisher–Yates shuffle
+	public static void shuffleArray(int[] ar) {
+		Random rnd = new Random();
+		for (int i = ar.length - 1; i > 0; i--)
+		{
+			int index = rnd.nextInt(i + 1);
+			// Simple swap
+			int a = ar[index];
+			ar[index] = ar[i];
+			ar[i] = a;
+		}
+	}
+    
+	// Implementing Fisher–Yates shuffle
+	public static void shuffleArray(byte[] ar) {
+		Random rnd = new Random();
+		for (int i = ar.length - 1; i > 0; i--)
+		{
+			int index = rnd.nextInt(i + 1);
+			// Simple swap
+			byte a = ar[index];
+			ar[index] = ar[i];
+			ar[i] = a;
+		}
+	}
+    
+    	// TODO: Test this.
+	// Implementing Fisher–Yates shuffle
+	public static <E> void shuffleArray(E[] ar) {
+		Random rnd = new Random();
+		for (int i = ar.length - 1; i > 0; i--)
+		{
+			int index = rnd.nextInt(i + 1);
+			// Simple swap
+			E a = ar[index];
+			ar[index] = ar[i];
+			ar[i] = a;
+		}
+	}
 }
